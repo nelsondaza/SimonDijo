@@ -54,10 +54,12 @@ public class Figura extends JLabel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				((Figura)e.getSource()).setSeleccionado( true );
+				((Figura)e.getSource()).paintImmediately(((Figura)e.getSource()).getVisibleRect());
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				((Figura)e.getSource()).setSeleccionado( false );
+				((Figura)e.getSource()).paintImmediately(((Figura)e.getSource()).getVisibleRect());
 			}
 		});
 		
@@ -68,10 +70,14 @@ public class Figura extends JLabel {
 	 * @param seleccionado
 	 */
 	public void setSeleccionado( boolean seleccionado ) {
-		if( seleccionado )
+		
+		if( seleccionado ) {
 			this.setBackground( colorSeleccionado );
-		else
+		}
+		else {
 			this.setBackground( color );
+		}
+		
 	}
 	
 	/**
@@ -79,9 +85,14 @@ public class Figura extends JLabel {
 	 */
 	public void animar( ) {
 		try {
-			setSeleccionado( true );
-			Thread.sleep(1000);
 			setSeleccionado( false );
+			paintImmediately(getVisibleRect());
+			Thread.sleep( 500 );
+			setSeleccionado( true );
+			paintImmediately(getVisibleRect());
+			Thread.sleep( 500 );
+			setSeleccionado( false );
+			paintImmediately(getVisibleRect());
 		}
 		catch( InterruptedException ie ) {
 			;
